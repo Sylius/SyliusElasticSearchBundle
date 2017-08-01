@@ -10,6 +10,7 @@ ongr_filter_manager:
                 - paginator
                 - search
                 - attributes
+                - sort
             repository: es.manager.default.product
     filters:
         channel:
@@ -53,3 +54,13 @@ ongr_filter_manager:
             document_field: name,description,attributes>attributes.value
             options:
                 operator: and
+        sort:
+            type: sort
+            request_field: sort
+            document_field: ~
+            options:
+                choices:
+                    price_asc: { field: price.amount, default: false, order: asc }
+                    price_desc: { field: price.amount, default: false, order: desc }
+                    name_asc: { field: name, default: false, order: asc }
+                    name_desc: { field: name, default: false, order: desc }

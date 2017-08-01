@@ -461,6 +461,76 @@
                     }
                 }
             ]
+        },
+        "sort": {
+            "state": {
+                "active": false,
+                "urlParameters": [],
+                "name": "sort",
+                "options": []
+            },
+            "tags": [],
+            "urlParameters": {
+                "channel": "WEB_GB",
+                "enabled": true,
+                "locale": "en_GB"
+            },
+            "resetUrlParameters": {
+                "channel": "WEB_GB",
+                "enabled": true,
+                "locale": "en_GB"
+            },
+            "name": "sort",
+            "choices": [
+                {
+                    "active": false,
+                    "default": false,
+                    "urlParameters": {
+                        "channel": "WEB_GB",
+                        "enabled": true,
+                        "locale": "en_GB",
+                        "sort": "price_asc"
+                    },
+                    "label": "price_asc",
+                    "count": 0
+                },
+                {
+                    "active": false,
+                    "default": false,
+                    "urlParameters": {
+                        "channel": "WEB_GB",
+                        "enabled": true,
+                        "locale": "en_GB",
+                        "sort": "price_desc"
+                    },
+                    "label": "price_desc",
+                    "count": 0
+                },
+                {
+                    "active": false,
+                    "default": false,
+                    "urlParameters": {
+                        "channel": "WEB_GB",
+                        "enabled": true,
+                        "locale": "en_GB",
+                        "sort": "name_asc"
+                    },
+                    "label": "name_asc",
+                    "count": 0
+                },
+                {
+                    "active": false,
+                    "default": false,
+                    "urlParameters": {
+                        "channel": "WEB_GB",
+                        "enabled": true,
+                        "locale": "en_GB",
+                        "sort": "name_desc"
+                    },
+                    "label": "name_desc",
+                    "count": 0
+                }
+            ]
         }
     }
 }

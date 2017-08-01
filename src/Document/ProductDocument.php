@@ -24,6 +24,7 @@ class ProductDocument
      *    type="text",
      *    name="name",
      *    options={
+     *        "fielddata"=true,
      *        "analyzer"="standard",
      *        "fields"={
      *            "raw"={"type"="keyword"},

@@ -164,6 +164,62 @@ final class SearchControllerApiTest extends JsonApiTestCase
     }
 
     /**
+     * @test
+     */
+    public function it_shows_product_list_page_from_WEB_GB_channel_sorted_by_price_ascending_using_default_locale()
+    {
+        $this->loadFixturesFromFile('shop.yml');
+
+        $this->client->request('GET', '/shop-api/products', ['channel' => 'WEB_GB', 'sort' => 'price_asc'], [], ['ACCEPT' => 'application/json']);
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponse($response, 'WEB_GB/en_GB/product_list_page_sorted_by_price_ascending', Response::HTTP_OK);
+    }
+
+    /**
+     * @test
+     */
+    public function it_shows_product_list_page_from_WEB_GB_channel_sorted_by_price_descending_using_default_locale()
+    {
+        $this->loadFixturesFromFile('shop.yml');
+
+        $this->client->request('GET', '/shop-api/products', ['channel' => 'WEB_GB', 'sort' => 'price_desc'], [], ['ACCEPT' => 'application/json']);
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponse($response, 'WEB_GB/en_GB/product_list_page_sorted_by_price_descending', Response::HTTP_OK);
+    }
+
+    /**
+     * @test
+     */
+    public function it_shows_product_list_page_from_WEB_GB_channel_sorted_by_name_ascending_using_default_locale()
+    {
+        $this->loadFixturesFromFile('shop.yml');
+
+        $this->client->request('GET', '/shop-api/products', ['channel' => 'WEB_GB', 'sort' => 'name_asc'], [], ['ACCEPT' => 'application/json']);
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponse($response, 'WEB_GB/en_GB/product_list_page_sorted_by_name_ascending', Response::HTTP_OK);
+    }
+
+    /**
+     * @test
+     */
+    public function it_shows_product_list_page_from_WEB_GB_channel_sorted_by_name_descending_using_default_locale()
+    {
+        $this->loadFixturesFromFile('shop.yml');
+
+        $this->client->request('GET', '/shop-api/products', ['channel' => 'WEB_GB', 'sort' => 'name_desc'], [], ['ACCEPT' => 'application/json']);
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponse($response, 'WEB_GB/en_GB/product_list_page_sorted_by_name_descending', Response::HTTP_OK);
+    }
+
+    /**
      * @before
      */
     protected function purgeElasticSearch()
