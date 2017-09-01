@@ -24,10 +24,10 @@ final class Pager extends AbstractFilter implements ViewDataFactoryInterface
     public function getCountPerPage(?FilterState $state): int
     {
         if (null !== $state) {
-            return $state->getOption('limit', 10);
+            return (int) $state->getOption('limit', 10);
         }
 
-        return $this->getOption('limit', 10);
+        return (int) $this->getOption('limit', 10);
     }
 
     /**

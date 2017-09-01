@@ -425,18 +425,42 @@ final class ProductDocumentFactory implements ProductDocumentFactoryInterface
 
         if (is_array($syliusProductAttributeValue->getValue())) {
             foreach ($syliusProductAttributeValue->getValue() as $value) {
+                $syliusProductAttributeTranslation = $syliusProductAttributeValue->getAttribute()->getTranslation(
+                    $locale->getCode()
+                );
+
+                if (is_null($syliusProductAttributeTranslation->getName())) {
+                    continue;
+                }
+
+                if ($value instanceof \DateTime) {
+                    $value = $value->format('Y-m-d H:i:s');
+                }
+
                 $productAttributes[] = $this->createSingleAttributeDocumentFromSyliusProductAttributeValue(
-                    $value,
+                    (string) $value,
                     $syliusProductAttributeValue,
                     $locale
                 );
             }
         } else {
-            $productAttributes[] = $this->createSingleAttributeDocumentFromSyliusProductAttributeValue(
-                $syliusProductAttributeValue->getValue(),
-                $syliusProductAttributeValue,
-                $locale
+            $syliusProductAttributeTranslation = $syliusProductAttributeValue->getAttribute()->getTranslation(
+                $locale->getCode()
             );
+
+            $value = $syliusProductAttributeValue->getValue();
+
+            if ($value instanceof \DateTime) {
+                $value = $value->format('Y-m-d H:i:s');
+            }
+
+            if (!is_null($syliusProductAttributeTranslation->getName())) {
+                $productAttributes[] = $this->createSingleAttributeDocumentFromSyliusProductAttributeValue(
+                    (string) $value,
+                    $syliusProductAttributeValue,
+                    $locale
+                );
+            }
         }
 
         return $productAttributes;
@@ -465,6 +489,7 @@ final class ProductDocumentFactory implements ProductDocumentFactoryInterface
             $locale->getCode()
         )
         ;
+
         $productAttribute->setName($syliusProductAttributeTranslation->getName());
 
         return $productAttribute;
