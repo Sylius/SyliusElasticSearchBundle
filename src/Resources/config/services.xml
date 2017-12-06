@@ -49,10 +49,6 @@
             <tag name="ongr_filter_manager.filter" type="sylius_elastic_search.multi_dynamic_aggregate_without_view" />
         </service>
 
-        <service id="sylius_elastic_search.filter.multi_dynamic_aggregate_options" class="Sylius\ElasticSearchPlugin\Filter\Widget\OptionMultiDynamicAggregate">
-            <tag name="ongr_filter_manager.filter" type="sylius_elastic_search.multi_dynamic_aggregate_options" />
-        </service>
-
         <service id="sylius_elastic_search.filter.in_stock" class="Sylius\ElasticSearchPlugin\Filter\Widget\InStock">
             <tag name="ongr_filter_manager.filter" type="sylius_elastic_search.in_stock" />
         </service>
