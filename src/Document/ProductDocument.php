@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Sylius\ElasticSearchPlugin\Document;
 
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ElasticSearch\Document(type="product")
@@ -101,21 +102,21 @@ class ProductDocument
     protected $mainTaxon;
 
     /**
-     * @var Collection|TaxonDocument[]
+     * @var ArrayCollection|TaxonDocument[]
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\TaxonDocument", multiple=true)
      */
     protected $taxons;
 
     /**
-     * @var Collection
+     * @var ArrayCollection|AttributeDocument[]
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\AttributeDocument", multiple=true)
      */
     protected $attributes;
 
     /**
-     * @var Collection
+     * @var ArrayCollection|ImageDocument[]
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\ImageDocument", multiple=true)
      */
@@ -134,7 +135,7 @@ class ProductDocument
     protected $createdAt;
 
     /**
-     * @var Collection
+     * @var ArrayCollection|VariantDocument[]
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\VariantDocument", multiple=true)
      */
@@ -149,10 +150,10 @@ class ProductDocument
 
     public function __construct()
     {
-        $this->attributes = new Collection();
-        $this->taxons = new Collection();
-        $this->images = new Collection();
-        $this->variants = new Collection();
+        $this->attributes = new ArrayCollection();
+        $this->taxons = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->variants = new ArrayCollection();
     }
 
     /**
@@ -342,13 +343,13 @@ class ProductDocument
     /**
      * @param Collection|TaxonDocument[] $taxons
      */
-    public function setTaxons($taxons): void
+    public function setTaxons(Collection $taxons): void
     {
         $this->taxons = $taxons;
     }
 
     /**
-     * @return Collection
+     * @return Collection|AttributeDocument[]
      */
     public function getAttributes(): Collection
     {
@@ -364,7 +365,7 @@ class ProductDocument
     }
 
     /**
-     * @return Collection
+     * @return Collection|ImageDocument[]
      */
     public function getImages(): Collection
     {
@@ -428,7 +429,7 @@ class ProductDocument
     }
 
     /**
-     * @return Collection
+     * @return Collection|VariantDocument[]
      */
     public function getVariants(): Collection
     {
