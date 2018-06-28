@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\ElasticSearchPlugin\Factory;
 
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Bundle\ChannelBundle\Doctrine\ORM\ChannelRepository;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductRepository;
 use Sylius\Component\Core\Model\Channel;
@@ -106,7 +106,7 @@ final class ProductDocumentFactoryTest extends KernelTestCase
         $this->assertEquals($product->getCode(), $product->getCode());
         $this->assertEquals($product->getName(), $product->getName());
         $this->assertEquals('en_GB', $product->getLocaleCode());
-        $this->assertEquals(new Collection($productAttributes), $product->getAttributes());
+        $this->assertEquals(new ArrayCollection($productAttributes), $product->getAttributes());
         $this->assertEquals(1000, $product->getPrice()->getAmount());
         $this->assertEquals('GBP', $product->getPrice()->getCurrency());
         $this->assertEquals('en_GB', $product->getLocaleCode());
@@ -115,8 +115,8 @@ final class ProductDocumentFactoryTest extends KernelTestCase
         $this->assertEquals('Logan Mug', $product->getName());
         $this->assertEquals($createdAt, $product->getCreatedAt());
         $this->assertEquals('Logan Mug', $product->getDescription());
-        $this->assertEquals($taxon, $product->getMainTaxon());
-        $this->assertEquals(new Collection($productTaxons), $product->getTaxons());
+        $this->assertEquals($taxon->getCode(), $product->getMainTaxon()->getCode());
+        $this->assertEquals(new ArrayCollection($productTaxons), $product->getTaxons());
         $this->assertEquals(0.0, $product->getAverageReviewRating());
     }
 
@@ -170,7 +170,7 @@ final class ProductDocumentFactoryTest extends KernelTestCase
         $this->assertEquals($product->getName(), $product->getName());
         $this->assertEquals('en_GB', $product->getLocaleCode());
         $this->assertEquals(
-            new Collection([$productAttribute]),
+            new ArrayCollection([$productAttribute]),
             $product->getAttributes()
         );
         $this->assertEquals(1000, $product->getPrice()->getAmount());
@@ -182,7 +182,7 @@ final class ProductDocumentFactoryTest extends KernelTestCase
         $this->assertEquals($createdAt, $product->getCreatedAt());
         $this->assertEquals('Logan Mug', $product->getDescription());
         $this->assertEquals($taxon, $product->getMainTaxon());
-        $this->assertEquals(new Collection($productTaxons), $product->getTaxons());
+        $this->assertEquals(new ArrayCollection($productTaxons), $product->getTaxons());
         $this->assertEquals(0.0, $product->getAverageReviewRating());
     }
 
