@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sylius\ElasticSearchPlugin\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
 
 /**
@@ -332,49 +333,49 @@ class ProductDocument
     }
 
     /**
-     * @return ArrayCollection|TaxonDocument[]
+     * @return Collection|TaxonDocument[]
      */
-    public function getTaxons(): ArrayCollection
+    public function getTaxons(): Collection
     {
         return $this->taxons;
     }
 
     /**
-     * @param ArrayCollection|TaxonDocument[] $taxons
+     * @param Collection|TaxonDocument[] $taxons
      */
-    public function setTaxons($taxons): void
+    public function setTaxons(Collection $taxons): void
     {
         $this->taxons = $taxons;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getAttributes(): ArrayCollection
+    public function getAttributes(): Collection
     {
         return $this->attributes;
     }
 
     /**
-     * @param ArrayCollection $attributes
+     * @param Collection $attributes
      */
-    public function setAttributes(ArrayCollection $attributes): void
+    public function setAttributes(Collection $attributes): void
     {
         $this->attributes = $attributes;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getImages(): ArrayCollection
+    public function getImages(): Collection
     {
         return $this->images;
     }
 
     /**
-     * @param ArrayCollection $images
+     * @param Collection $images
      */
-    public function setImages(ArrayCollection $images): void
+    public function setImages(Collection $images): void
     {
         $this->images = $images;
     }
@@ -428,17 +429,17 @@ class ProductDocument
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getVariants(): ArrayCollection
+    public function getVariants(): Collection
     {
         return $this->variants;
     }
 
     /**
-     * @param ArrayCollection $variants
+     * @param Collection $variants
      */
-    public function setVariants(ArrayCollection $variants): void
+    public function setVariants(Collection $variants): void
     {
         $this->variants = $variants;
     }

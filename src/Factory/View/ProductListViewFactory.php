@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\ElasticSearchPlugin\Factory\View;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use ONGR\FilterManagerBundle\Search\SearchResponse;
 use Sylius\ElasticSearchPlugin\Controller\AttributeView;
 use Sylius\ElasticSearchPlugin\Controller\ImageView;
@@ -88,11 +88,11 @@ final class ProductListViewFactory implements ProductListViewFactoryInterface
     }
 
     /**
-     * @param ArrayCollection|ImageDocument[] $images
+     * @param Collection|ImageDocument[] $images
      *
      * @return ImageView[]
      */
-    private function getImageViews(ArrayCollection $images): array
+    private function getImageViews(Collection $images): array
     {
         $imageViews = [];
         foreach ($images as $image) {
@@ -108,12 +108,12 @@ final class ProductListViewFactory implements ProductListViewFactoryInterface
     }
 
     /**
-     * @param ArrayCollection|TaxonDocument[] $taxons
+     * @param Collection|TaxonDocument[] $taxons
      * @param TaxonDocument|null $mainTaxonDocument
      *
      * @return TaxonView
      */
-    private function getTaxonView(ArrayCollection $taxons, ?TaxonDocument $mainTaxonDocument): TaxonView
+    private function getTaxonView(Collection $taxons, ?TaxonDocument $mainTaxonDocument): TaxonView
     {
         /** @var TaxonView $taxonView */
         $taxonView = new $this->taxonViewClass();
@@ -127,11 +127,11 @@ final class ProductListViewFactory implements ProductListViewFactoryInterface
     }
 
     /**
-     * @param ArrayCollection|AttributeDocument[] $attributes
+     * @param Collection|AttributeDocument[] $attributes
      *
      * @return AttributeView[]
      */
-    private function getAttributeViews(ArrayCollection $attributes): array
+    private function getAttributeViews(Collection $attributes): array
     {
         $attributeValueViews = [];
         foreach ($attributes as $attribute) {
@@ -164,11 +164,11 @@ final class ProductListViewFactory implements ProductListViewFactoryInterface
     }
 
     /**
-     * @param VariantDocument[]|ArrayCollection $variants
+     * @param VariantDocument[]|Collection $variants
      *
      * @return array
      */
-    private function getVariantViews(ArrayCollection $variants): array
+    private function getVariantViews(Collection $variants): array
     {
         $variantViews = [];
         foreach ($variants as $variant) {

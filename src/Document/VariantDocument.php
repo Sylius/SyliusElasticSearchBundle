@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sylius\ElasticSearchPlugin\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
 
 /**
@@ -91,17 +92,17 @@ class VariantDocument
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getImages(): ArrayCollection
+    public function getImages(): Collection
     {
         return $this->images;
     }
 
     /**
-     * @param ArrayCollection $images
+     * @param Collection $images
      */
-    public function setImages(ArrayCollection $images): void
+    public function setImages(Collection $images): void
     {
         $this->images = $images;
     }
@@ -192,17 +193,17 @@ class VariantDocument
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getOptions(): ArrayCollection
+    public function getOptions(): Collection
     {
         return $this->options;
     }
 
     /**
-     * @param ArrayCollection $options
+     * @param Collection $options
      */
-    public function setOptions(ArrayCollection $options): void
+    public function setOptions(Collection $options): void
     {
         $this->options = $options;
     }
