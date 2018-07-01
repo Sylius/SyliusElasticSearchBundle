@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sylius\ElasticSearchPlugin\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
-use ONGR\ElasticsearchBundle\Collection\Collection;
 
 /**
  * @ElasticSearch\Nested
@@ -20,7 +20,7 @@ class VariantDocument
     protected $id;
 
     /**
-     * @var Collection
+     * @var ArrayCollection
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\ImageDocument", multiple=true)
      */
@@ -62,7 +62,7 @@ class VariantDocument
     protected $isTracked;
 
     /**
-     * @var Collection
+     * @var ArrayCollection
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\OptionDocument", multiple=true)
      */
@@ -70,8 +70,8 @@ class VariantDocument
 
     public function __construct()
     {
-        $this->images = new Collection();
-        $this->options = new Collection();
+        $this->images = new ArrayCollection();
+        $this->options = new ArrayCollection();
     }
 
     /**
@@ -91,17 +91,17 @@ class VariantDocument
     }
 
     /**
-     * @return Collection
+     * @return ArrayCollection
      */
-    public function getImages(): Collection
+    public function getImages(): ArrayCollection
     {
         return $this->images;
     }
 
     /**
-     * @param Collection $images
+     * @param ArrayCollection $images
      */
-    public function setImages(Collection $images): void
+    public function setImages(ArrayCollection $images): void
     {
         $this->images = $images;
     }
@@ -192,17 +192,17 @@ class VariantDocument
     }
 
     /**
-     * @return Collection
+     * @return ArrayCollection
      */
-    public function getOptions(): Collection
+    public function getOptions(): ArrayCollection
     {
         return $this->options;
     }
 
     /**
-     * @param Collection $options
+     * @param ArrayCollection $options
      */
-    public function setOptions(Collection $options): void
+    public function setOptions(ArrayCollection $options): void
     {
         $this->options = $options;
     }
