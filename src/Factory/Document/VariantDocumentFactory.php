@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\ElasticSearchPlugin\Factory\Document;
 
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
@@ -74,14 +74,14 @@ final class VariantDocumentFactory implements VariantDocumentFactoryInterface
         $variant->setPrice($price);
         $variant->setStock($productVariant->getOnHand() - $productVariant->getOnHold());
         $variant->setIsTracked($productVariant->isTracked());
-        $variant->setOptions(new Collection($options));
+        $variant->setOptions(new ArrayCollection($options));
         if ($productVariant->getImages()->count() > 0) {
             /** @var ImageDocument[] $images */
             $images = [];
             foreach ($productVariant->getImages() as $image) {
                 $images[] = $this->imageDocumentFactory->create($image);
             }
-            $variant->setImages(new Collection($images));
+            $variant->setImages(new ArrayCollection($images));
         }
 
         return $variant;

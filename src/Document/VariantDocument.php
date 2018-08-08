@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Sylius\ElasticSearchPlugin\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
-use ONGR\ElasticsearchBundle\Collection\Collection;
 
 /**
  * @ElasticSearch\Nested
@@ -20,7 +21,7 @@ class VariantDocument
     protected $id;
 
     /**
-     * @var Collection
+     * @var ArrayCollection
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\ImageDocument", multiple=true)
      */
@@ -62,7 +63,7 @@ class VariantDocument
     protected $isTracked;
 
     /**
-     * @var Collection
+     * @var ArrayCollection
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\OptionDocument", multiple=true)
      */
@@ -70,8 +71,8 @@ class VariantDocument
 
     public function __construct()
     {
-        $this->images = new Collection();
-        $this->options = new Collection();
+        $this->images = new ArrayCollection();
+        $this->options = new ArrayCollection();
     }
 
     /**
