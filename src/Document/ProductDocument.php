@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Sylius\ElasticSearchPlugin\Document;
 
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ElasticSearch\Document(type="product")
@@ -149,10 +150,10 @@ class ProductDocument
 
     public function __construct()
     {
-        $this->attributes = new Collection();
-        $this->taxons = new Collection();
-        $this->images = new Collection();
-        $this->variants = new Collection();
+        $this->attributes = new ArrayCollection();
+        $this->taxons = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->variants = new ArrayCollection();
     }
 
     /**

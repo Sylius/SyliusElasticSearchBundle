@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\ElasticSearchPlugin\Factory\Document;
 
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
@@ -54,7 +54,7 @@ final class TaxonDocumentFactory implements TaxonDocumentFactoryInterface
         foreach ($taxon->getImages() as $image) {
             $images[] = $this->imageDocumentFactory->create($image);
         }
-        $taxonDocument->setImages(new Collection($images));
+        $taxonDocument->setImages(new ArrayCollection($images));
 
         return $taxonDocument;
     }

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Sylius\ElasticSearchPlugin\Document;
 
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ElasticSearch\Nested()
@@ -49,7 +50,7 @@ class TaxonDocument
 
     public function __construct()
     {
-        $this->images = new Collection();
+        $this->images = new ArrayCollection();
     }
 
     /**
