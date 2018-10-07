@@ -89,9 +89,9 @@ ongr_filter_manager:
             options:
                 name_field: attributes.code
         options:
-            type: sylius_elastic_search.multi_dynamic_aggregate_options
+            type: sylius_elastic_search.multi_dynamic_aggregate
             request_field: options
-            document_field: variants>variants.options>variants.options.value.raw
+            document_field: variants.options>variants.options.value.raw
             options:
                 name_field: variants.options.name.raw
                 sort_type: _term
