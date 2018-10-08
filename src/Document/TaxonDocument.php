@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ElasticSearch\Nested()
+ * @ElasticSearch\NestedType
  */
 class TaxonDocument
 {
