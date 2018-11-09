@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ElasticSearch\NestedType
  */
-class VariantDocument
+class VariantDocument implements VariantDocumentInterface
 {
     /**
      * @var mixed
@@ -28,7 +28,7 @@ class VariantDocument
     protected $images;
 
     /**
-     * @var PriceDocument
+     * @var PriceDocumentInterface
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\PriceDocument")
      */
@@ -108,17 +108,17 @@ class VariantDocument
     }
 
     /**
-     * @return PriceDocument
+     * @return PriceDocumentInterface
      */
-    public function getPrice(): PriceDocument
+    public function getPrice(): PriceDocumentInterface
     {
         return $this->price;
     }
 
     /**
-     * @param PriceDocument $price
+     * @param PriceDocumentInterface $price
      */
-    public function setPrice(PriceDocument $price): void
+    public function setPrice(PriceDocumentInterface $price): void
     {
         $this->price = $price;
     }

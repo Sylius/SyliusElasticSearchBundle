@@ -13,6 +13,7 @@
             <argument type="service" id="sylius.repository.product" />
             <argument type="service" id="es.manager.default" />
             <argument type="service" id="sylius_elastic_search.factory.product" />
+            <argument>%sylius_elastic_search.document.product.class%</argument>
             <tag name="console.command" />
         </service>
     </services>

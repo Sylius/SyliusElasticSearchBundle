@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * @ElasticSearch\Document(type="product")
  */
-class ProductDocument
+class ProductDocument implements ProductDocumentInterface
 {
     /**
      * @var string
@@ -301,39 +301,39 @@ class ProductDocument
     }
 
     /**
-     * @return PriceDocument
+     * @return PriceDocumentInterface
      */
-    public function getPrice(): PriceDocument
+    public function getPrice(): PriceDocumentInterface
     {
         return $this->price;
     }
 
     /**
-     * @param PriceDocument $price
+     * @param PriceDocumentInterface $price
      */
-    public function setPrice(PriceDocument $price): void
+    public function setPrice(PriceDocumentInterface $price): void
     {
         $this->price = $price;
     }
 
     /**
-     * @return TaxonDocument
+     * @return TaxonDocumentInterface
      */
-    public function getMainTaxon(): ?TaxonDocument
+    public function getMainTaxon(): ?TaxonDocumentInterface
     {
         return $this->mainTaxon;
     }
 
     /**
-     * @param TaxonDocument $mainTaxon
+     * @param TaxonDocumentInterface $mainTaxon
      */
-    public function setMainTaxon(TaxonDocument $mainTaxon): void
+    public function setMainTaxon(TaxonDocumentInterface $mainTaxon): void
     {
         $this->mainTaxon = $mainTaxon;
     }
 
     /**
-     * @return Collection|TaxonDocument[]
+     * @return Collection|TaxonDocumentInterface[]
      */
     public function getTaxons(): Collection
     {
@@ -341,7 +341,7 @@ class ProductDocument
     }
 
     /**
-     * @param Collection|TaxonDocument[] $taxons
+     * @param Collection|TaxonDocumentInterface[] $taxons
      */
     public function setTaxons(Collection $taxons): void
     {
@@ -349,7 +349,7 @@ class ProductDocument
     }
 
     /**
-     * @return Collection|AttributeDocument[]
+     * @return Collection|AttributeDocumentInterface[]
      */
     public function getAttributes(): Collection
     {
@@ -365,7 +365,7 @@ class ProductDocument
     }
 
     /**
-     * @return Collection|ImageDocument[]
+     * @return Collection|ImageDocumentInterface[]
      */
     public function getImages(): Collection
     {
@@ -429,7 +429,7 @@ class ProductDocument
     }
 
     /**
-     * @return Collection|VariantDocument[]
+     * @return Collection|VariantDocumentInterface[]
      */
     public function getVariants(): Collection
     {

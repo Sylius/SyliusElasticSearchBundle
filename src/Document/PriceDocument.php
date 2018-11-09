@@ -9,7 +9,7 @@ use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
 /**
  * @ElasticSearch\ObjectType
  */
-class PriceDocument
+class PriceDocument implements PriceDocumentInterface
 {
     /**
      * @var int
@@ -43,7 +43,7 @@ class PriceDocument
     /**
      * @param int $amount
      */
-    public function setAmount(int $amount): void
+    public function setAmount($amount): void
     {
         $this->amount = $amount;
     }

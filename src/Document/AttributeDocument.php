@@ -9,7 +9,7 @@ use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
 /**
  * @ElasticSearch\NestedType
  */
-class AttributeDocument
+class AttributeDocument implements AttributeDocumentInterface
 {
     /**
      * @var string

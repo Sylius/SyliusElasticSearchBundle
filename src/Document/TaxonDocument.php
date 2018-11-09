@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ElasticSearch\NestedType
  */
-class TaxonDocument
+class TaxonDocument implements TaxonDocumentInterface
 {
     /**
      * @var string

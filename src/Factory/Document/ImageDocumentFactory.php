@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sylius\ElasticSearchPlugin\Factory\Document;
 
 use Sylius\Component\Core\Model\ImageInterface;
-use Sylius\ElasticSearchPlugin\Document\ImageDocument;
+use Sylius\ElasticSearchPlugin\Document\ImageDocumentInterface;
 
 final class ImageDocumentFactory implements ImageDocumentFactoryInterface
 {
@@ -17,9 +17,9 @@ final class ImageDocumentFactory implements ImageDocumentFactoryInterface
         $this->imageDocumentClass = $imageDocumentClass;
     }
 
-    public function create(ImageInterface $image): ImageDocument
+    public function create(ImageInterface $image): ImageDocumentInterface
     {
-        /** @var ImageDocument $imageDocument */
+        /** @var ImageDocumentInterface $imageDocument */
         $imageDocument = new $this->imageDocumentClass();
         $imageDocument->setCode($image->getType());
         $imageDocument->setPath($image->getPath());

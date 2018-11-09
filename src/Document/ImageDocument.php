@@ -9,7 +9,7 @@ use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
 /**
  * @ElasticSearch\ObjectType
  */
-class ImageDocument
+class ImageDocument implements ImageDocumentInterface
 {
     /**
      * @var string
