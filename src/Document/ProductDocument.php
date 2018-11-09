@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Sylius\ElasticSearchPlugin\Document;
 
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ElasticSearch\Document(type="product")
  */
-class ProductDocument
+class ProductDocument implements ProductDocumentInterface
 {
     /**
      * @var string
@@ -101,21 +102,21 @@ class ProductDocument
     protected $mainTaxon;
 
     /**
-     * @var Collection|TaxonDocument[]
+     * @var ArrayCollection|TaxonDocument[]
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\TaxonDocument", multiple=true)
      */
     protected $taxons;
 
     /**
-     * @var Collection
+     * @var ArrayCollection|AttributeDocument[]
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\AttributeDocument", multiple=true)
      */
     protected $attributes;
 
     /**
-     * @var Collection
+     * @var ArrayCollection|ImageDocument[]
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\ImageDocument", multiple=true)
      */
@@ -134,7 +135,7 @@ class ProductDocument
     protected $createdAt;
 
     /**
-     * @var Collection
+     * @var ArrayCollection|VariantDocument[]
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\VariantDocument", multiple=true)
      */
@@ -149,10 +150,10 @@ class ProductDocument
 
     public function __construct()
     {
-        $this->attributes = new Collection();
-        $this->taxons = new Collection();
-        $this->images = new Collection();
-        $this->variants = new Collection();
+        $this->attributes = new ArrayCollection();
+        $this->taxons = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->variants = new ArrayCollection();
     }
 
     /**
@@ -300,39 +301,39 @@ class ProductDocument
     }
 
     /**
-     * @return PriceDocument
+     * @return PriceDocumentInterface
      */
-    public function getPrice(): PriceDocument
+    public function getPrice(): PriceDocumentInterface
     {
         return $this->price;
     }
 
     /**
-     * @param PriceDocument $price
+     * @param PriceDocumentInterface $price
      */
-    public function setPrice(PriceDocument $price): void
+    public function setPrice(PriceDocumentInterface $price): void
     {
         $this->price = $price;
     }
 
     /**
-     * @return TaxonDocument
+     * @return TaxonDocumentInterface
      */
-    public function getMainTaxon(): ?TaxonDocument
+    public function getMainTaxon(): ?TaxonDocumentInterface
     {
         return $this->mainTaxon;
     }
 
     /**
-     * @param TaxonDocument $mainTaxon
+     * @param TaxonDocumentInterface $mainTaxon
      */
-    public function setMainTaxon(TaxonDocument $mainTaxon): void
+    public function setMainTaxon(TaxonDocumentInterface $mainTaxon): void
     {
         $this->mainTaxon = $mainTaxon;
     }
 
     /**
-     * @return Collection|TaxonDocument[]
+     * @return Collection|TaxonDocumentInterface[]
      */
     public function getTaxons(): Collection
     {
@@ -340,15 +341,15 @@ class ProductDocument
     }
 
     /**
-     * @param Collection|TaxonDocument[] $taxons
+     * @param Collection|TaxonDocumentInterface[] $taxons
      */
-    public function setTaxons($taxons): void
+    public function setTaxons(Collection $taxons): void
     {
         $this->taxons = $taxons;
     }
 
     /**
-     * @return Collection
+     * @return Collection|AttributeDocumentInterface[]
      */
     public function getAttributes(): Collection
     {
@@ -364,7 +365,7 @@ class ProductDocument
     }
 
     /**
-     * @return Collection
+     * @return Collection|ImageDocumentInterface[]
      */
     public function getImages(): Collection
     {
@@ -428,7 +429,7 @@ class ProductDocument
     }
 
     /**
-     * @return Collection
+     * @return Collection|VariantDocumentInterface[]
      */
     public function getVariants(): Collection
     {

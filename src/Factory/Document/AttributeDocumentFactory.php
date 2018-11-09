@@ -7,7 +7,7 @@ namespace Sylius\ElasticSearchPlugin\Factory\Document;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Product\Model\ProductAttributeTranslationInterface;
 use Sylius\Component\Product\Model\ProductAttributeValueInterface;
-use Sylius\ElasticSearchPlugin\Document\AttributeDocument;
+use Sylius\ElasticSearchPlugin\Document\AttributeDocumentInterface;
 
 final class AttributeDocumentFactory implements AttributeDocumentFactoryInterface
 {
@@ -38,7 +38,7 @@ final class AttributeDocumentFactory implements AttributeDocumentFactoryInterfac
                 );
             }
         } else {
-            /** @var AttributeDocument $productAttribute */
+            /** @var AttributeDocumentInterface $productAttribute */
             $productAttribute = new $this->attributeDocumentClass();
             $productAttribute->setCode($productAttributeValue->getCode());
             $productAttribute->setValue($data);

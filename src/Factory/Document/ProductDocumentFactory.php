@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sylius\ElasticSearchPlugin\Factory\Document;
 
-use Doctrine\Common\Collections\Collection as DoctrineCollection;
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
@@ -14,9 +14,9 @@ use Sylius\Component\Core\Model\ProductTranslationInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Model\TranslationInterface;
-use Sylius\ElasticSearchPlugin\Document\ImageDocument;
-use Sylius\ElasticSearchPlugin\Document\ProductDocument;
-use Sylius\ElasticSearchPlugin\Document\TaxonDocument;
+use Sylius\ElasticSearchPlugin\Document\ImageDocumentInterface;
+use Sylius\ElasticSearchPlugin\Document\ProductDocumentInterface;
+use Sylius\ElasticSearchPlugin\Document\TaxonDocumentInterface;
 use Zend\Stdlib\ArrayObject;
 
 final class ProductDocumentFactory implements ProductDocumentFactoryInterface
@@ -60,7 +60,7 @@ final class ProductDocumentFactory implements ProductDocumentFactoryInterface
         VariantDocumentFactoryInterface $variantDocumentFactory,
         array $attributeWhitelist
     ) {
-        $this->assertClassExtends($productDocumentClass, ProductDocument::class);
+        $this->assertClassImplements($productDocumentClass, ProductDocumentInterface::class);
         $this->productDocumentClass = $productDocumentClass;
 
         $this->attributeDocumentFactory = $attributeDocumentFactory;
@@ -78,13 +78,13 @@ final class ProductDocumentFactory implements ProductDocumentFactoryInterface
      * @param LocaleInterface $locale
      * @param ChannelInterface $channel
      *
-     * @return ProductDocument
+     * @return ProductDocumentInterface
      */
     public function create(
         ProductInterface $product,
         LocaleInterface $locale,
         ChannelInterface $channel
-    ): ProductDocument {
+    ): ProductDocumentInterface {
         /** @var ProductVariantInterface[] $productVariants */
         $productVariants = $product->getVariants()->filter(function (ProductVariantInterface $productVariant) use ($channel): bool {
             return $productVariant->hasChannelPricingForChannel($channel);
@@ -104,7 +104,7 @@ final class ProductDocumentFactory implements ProductDocumentFactoryInterface
             $variantDocuments[] = $this->variantDocumentFactory->create($variant, $channel, $locale);
         }
 
-        /** @var ImageDocument[] $imageDocuments */
+        /** @var ImageDocumentInterface[] $imageDocuments */
         $imageDocuments = [];
         foreach ($product->getImages() as $productImage) {
             foreach ($productVariants as $variant) {
@@ -116,7 +116,7 @@ final class ProductDocumentFactory implements ProductDocumentFactoryInterface
             $imageDocuments[] = $this->imageDocumentFactory->create($productImage);
         }
 
-        /** @var TaxonDocument[] $taxonDocuments */
+        /** @var TaxonDocumentInterface[] $taxonDocuments */
         $taxonDocuments = [];
         foreach ($product->getProductTaxons() as $syliusProductTaxon) {
             $taxonDocuments[] = $this->taxonDocumentFactory->create(
@@ -131,7 +131,7 @@ final class ProductDocumentFactory implements ProductDocumentFactoryInterface
 
         $attributeDocuments = $this->getAttributeDocuments($product, $locale, $channel);
 
-        /** @var ProductDocument $productDocument */
+        /** @var ProductDocumentInterface $productDocument */
         $productDocument = new $this->productDocumentClass();
         $productDocument->setUuid(Uuid::uuid4()->toString());
         $productDocument->setId($product->getId());
@@ -145,10 +145,10 @@ final class ProductDocumentFactory implements ProductDocumentFactoryInterface
         $productDocument->setCreatedAt($product->getCreatedAt());
         $productDocument->setSynchronisedAt(new \DateTime('now'));
         $productDocument->setAverageReviewRating($product->getAverageRating());
-        $productDocument->setVariants(new Collection($variantDocuments));
-        $productDocument->setImages(new Collection($imageDocuments));
-        $productDocument->setTaxons(new Collection($taxonDocuments));
-        $productDocument->setAttributes(new Collection($attributeDocuments));
+        $productDocument->setVariants(new ArrayCollection($variantDocuments));
+        $productDocument->setImages(new ArrayCollection($imageDocuments));
+        $productDocument->setTaxons(new ArrayCollection($taxonDocuments));
+        $productDocument->setAttributes(new ArrayCollection($attributeDocuments));
 
         /**
          * Set smallest product variant price, used for search by price
@@ -170,7 +170,7 @@ final class ProductDocumentFactory implements ProductDocumentFactoryInterface
     }
 
     /**
-     * @param ProductVariantInterface[]|DoctrineCollection $variants
+     * @param ProductVariantInterface[]|Collection $variants
      * @param ChannelInterface $channel
      *
      * @return ChannelPricingInterface
@@ -200,10 +200,10 @@ final class ProductDocumentFactory implements ProductDocumentFactoryInterface
      *
      * @throws \InvalidArgumentException
      */
-    private function assertClassExtends(string $class, string $parentClass)
+    private function assertClassImplements(string $class, string $parentClass)
     {
-        if ($class !== $parentClass && !in_array($parentClass, class_parents($class), true)) {
-            throw new \InvalidArgumentException(sprintf('Class %s MUST extend class %s!', $class, $parentClass));
+        if ($class instanceof $parentClass) {
+            throw new \InvalidArgumentException(sprintf('Class %s MUST implement class %s!', $class, $parentClass));
         }
     }
 

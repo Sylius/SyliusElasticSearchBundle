@@ -7,9 +7,9 @@ namespace Sylius\ElasticSearchPlugin\Document;
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
 
 /**
- * @ElasticSearch\Object
+ * @ElasticSearch\ObjectType
  */
-class ImageDocument
+class ImageDocument implements ImageDocumentInterface
 {
     /**
      * @var string

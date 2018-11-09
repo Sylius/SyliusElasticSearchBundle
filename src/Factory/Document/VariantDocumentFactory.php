@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Sylius\ElasticSearchPlugin\Factory\Document;
 
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Product\Model\ProductVariantTranslationInterface;
-use Sylius\ElasticSearchPlugin\Document\ImageDocument;
-use Sylius\ElasticSearchPlugin\Document\VariantDocument;
+use Sylius\ElasticSearchPlugin\Document\ImageDocumentInterface;
+use Sylius\ElasticSearchPlugin\Document\VariantDocumentInterface;
 
 final class VariantDocumentFactory implements VariantDocumentFactoryInterface
 {
@@ -43,7 +43,7 @@ final class VariantDocumentFactory implements VariantDocumentFactoryInterface
         ProductVariantInterface $productVariant,
         ChannelInterface $channel,
         LocaleInterface $locale
-    ): VariantDocument {
+    ): VariantDocumentInterface {
         $options = [];
         foreach ($productVariant->getOptionValues() as $optionValue) {
             $options[] = $this->optionDocumentFactory->create($optionValue, $locale);
@@ -60,7 +60,7 @@ final class VariantDocumentFactory implements VariantDocumentFactoryInterface
         /** @var ProductVariantTranslationInterface $productVariantTranslation */
         $productVariantTranslation = $productVariant->getTranslation($locale->getCode());
 
-        /** @var VariantDocument $variant */
+        /** @var VariantDocumentInterface $variant */
         $variant = new $this->variantDocumentClass();
         $variant->setId($productVariant->getId());
         $variant->setCode($productVariant->getCode());
@@ -74,14 +74,14 @@ final class VariantDocumentFactory implements VariantDocumentFactoryInterface
         $variant->setPrice($price);
         $variant->setStock($productVariant->getOnHand() - $productVariant->getOnHold());
         $variant->setIsTracked($productVariant->isTracked());
-        $variant->setOptions(new Collection($options));
+        $variant->setOptions(new ArrayCollection($options));
         if ($productVariant->getImages()->count() > 0) {
-            /** @var ImageDocument[] $images */
+            /** @var ImageDocumentInterface[] $images */
             $images = [];
             foreach ($productVariant->getImages() as $image) {
                 $images[] = $this->imageDocumentFactory->create($image);
             }
-            $variant->setImages(new Collection($images));
+            $variant->setImages(new ArrayCollection($images));
         }
 
         return $variant;

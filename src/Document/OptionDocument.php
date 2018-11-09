@@ -7,9 +7,9 @@ namespace Sylius\ElasticSearchPlugin\Document;
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
 
 /**
- * @ElasticSearch\Nested
+ * @ElasticSearch\NestedType
  */
-class OptionDocument
+class OptionDocument implements OptionDocumentInterface
 {
     /**
      * @var string

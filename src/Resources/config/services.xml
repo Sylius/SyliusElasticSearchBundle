@@ -18,6 +18,7 @@
         <service id="sylius_elastic_search.projector.product" class="Sylius\ElasticSearchPlugin\Projection\ProductProjector">
             <argument type="service" id="es.manager.default" />
             <argument type="service" id="sylius_elastic_search.factory.product" />
+            <argument>%sylius_elastic_search.document.product.class%</argument>
             <tag name="event_subscriber" subscribes_to="Sylius\ElasticSearchPlugin\Event\ProductCreated" method="handleProductCreated" />
             <tag name="event_subscriber" subscribes_to="Sylius\ElasticSearchPlugin\Event\ProductUpdated" method="handleProductUpdated" />
             <tag name="event_subscriber" subscribes_to="Sylius\ElasticSearchPlugin\Event\ProductDeleted" method="handleProductDeleted" />

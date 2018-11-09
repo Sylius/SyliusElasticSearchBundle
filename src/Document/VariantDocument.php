@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Sylius\ElasticSearchPlugin\Document;
 
 use ONGR\ElasticsearchBundle\Annotation as ElasticSearch;
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ElasticSearch\Nested
+ * @ElasticSearch\NestedType
  */
-class VariantDocument
+class VariantDocument implements VariantDocumentInterface
 {
     /**
      * @var mixed
@@ -27,7 +28,7 @@ class VariantDocument
     protected $images;
 
     /**
-     * @var PriceDocument
+     * @var PriceDocumentInterface
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\PriceDocument")
      */
@@ -62,7 +63,7 @@ class VariantDocument
     protected $isTracked;
 
     /**
-     * @var Collection
+     * @var Collection|OptionDocument[]
      *
      * @ElasticSearch\Embedded(class="Sylius\ElasticSearchPlugin\Document\OptionDocument", multiple=true)
      */
@@ -70,8 +71,8 @@ class VariantDocument
 
     public function __construct()
     {
-        $this->images = new Collection();
-        $this->options = new Collection();
+        $this->images = new ArrayCollection();
+        $this->options = new ArrayCollection();
     }
 
     /**
@@ -107,17 +108,17 @@ class VariantDocument
     }
 
     /**
-     * @return PriceDocument
+     * @return PriceDocumentInterface
      */
-    public function getPrice(): PriceDocument
+    public function getPrice(): PriceDocumentInterface
     {
         return $this->price;
     }
 
     /**
-     * @param PriceDocument $price
+     * @param PriceDocumentInterface $price
      */
-    public function setPrice(PriceDocument $price): void
+    public function setPrice(PriceDocumentInterface $price): void
     {
         $this->price = $price;
     }
@@ -192,7 +193,7 @@ class VariantDocument
     }
 
     /**
-     * @return Collection
+     * @return Collection|OptionDocument[]
      */
     public function getOptions(): Collection
     {

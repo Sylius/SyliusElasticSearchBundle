@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Sylius\ElasticSearchPlugin\Factory\Document;
 
-use ONGR\ElasticsearchBundle\Collection\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
-use Sylius\ElasticSearchPlugin\Document\ImageDocument;
-use Sylius\ElasticSearchPlugin\Document\TaxonDocument;
+use Sylius\ElasticSearchPlugin\Document\ImageDocumentInterface;
+use Sylius\ElasticSearchPlugin\Document\TaxonDocumentInterface;
 
 final class TaxonDocumentFactory implements TaxonDocumentFactoryInterface
 {
@@ -30,14 +30,14 @@ final class TaxonDocumentFactory implements TaxonDocumentFactoryInterface
      * @param LocaleInterface $localeCode
      * @param int|null $position Override the position in the Taxon model by passing your own
      *
-     * @return TaxonDocument
+     * @return TaxonDocumentInterface
      */
-    public function create(TaxonInterface $taxon, LocaleInterface $localeCode, ?int $position = null): TaxonDocument
+    public function create(TaxonInterface $taxon, LocaleInterface $localeCode, ?int $position = null): TaxonDocumentInterface
     {
         /** @var TaxonTranslationInterface $taxonTranslation */
         $taxonTranslation = $taxon->getTranslation($localeCode->getCode());
 
-        /** @var TaxonDocument $taxonDocument */
+        /** @var TaxonDocumentInterface $taxonDocument */
         $taxonDocument = new $this->taxonDocumentClass();
         $taxonDocument->setCode($taxon->getCode());
         $taxonDocument->setSlug($taxonTranslation->getSlug());
@@ -49,12 +49,12 @@ final class TaxonDocumentFactory implements TaxonDocumentFactoryInterface
 
         $taxonDocument->setDescription($taxonTranslation->getDescription());
 
-        /** @var ImageDocument[] $images */
+        /** @var ImageDocumentInterface[] $images */
         $images = [];
         foreach ($taxon->getImages() as $image) {
             $images[] = $this->imageDocumentFactory->create($image);
         }
-        $taxonDocument->setImages(new Collection($images));
+        $taxonDocument->setImages(new ArrayCollection($images));
 
         return $taxonDocument;
     }

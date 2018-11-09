@@ -10,7 +10,7 @@ use ONGR\ElasticsearchBundle\Service\Repository;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
-use Sylius\ElasticSearchPlugin\Document\ProductDocument;
+use Sylius\ElasticSearchPlugin\Document\ProductDocumentInterface;
 use Sylius\ElasticSearchPlugin\Event\ProductCreated;
 use Sylius\ElasticSearchPlugin\Event\ProductDeleted;
 use Sylius\ElasticSearchPlugin\Event\ProductUpdated;
@@ -36,13 +36,15 @@ final class ProductProjector
     /**
      * @param Manager $elasticsearchManager
      * @param ProductDocumentFactoryInterface $productDocumentFactory
+     * @param string $productDocumentClass
      */
     public function __construct(
         Manager $elasticsearchManager,
-        ProductDocumentFactoryInterface $productDocumentFactory
+        ProductDocumentFactoryInterface $productDocumentFactory,
+        string $productDocumentClass
     ) {
         $this->elasticsearchManager = $elasticsearchManager;
-        $this->productDocumentRepository = $elasticsearchManager->getRepository(ProductDocument::class);
+        $this->productDocumentRepository = $elasticsearchManager->getRepository($productDocumentClass);
         $this->productDocumentFactory = $productDocumentFactory;
     }
 
@@ -107,7 +109,7 @@ final class ProductProjector
 
     private function scheduleRemovingOldProductDocuments(ProductInterface $product): void
     {
-        /** @var DocumentIterator|ProductDocument[] $currentProductDocuments */
+        /** @var DocumentIterator|ProductDocumentInterface[] $currentProductDocuments */
         $currentProductDocuments = $this->productDocumentRepository->findBy(['code' => $product->getCode()]);
 
         foreach ($currentProductDocuments as $sameCodeProductDocument) {

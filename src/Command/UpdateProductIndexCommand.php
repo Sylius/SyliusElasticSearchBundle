@@ -12,7 +12,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
-use Sylius\ElasticSearchPlugin\Document\ProductDocument;
+use Sylius\ElasticSearchPlugin\Document\ProductDocumentInterface;
 use Sylius\ElasticSearchPlugin\Factory\Document\ProductDocumentFactoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,18 +42,20 @@ final class UpdateProductIndexCommand extends Command
     private $productDocumentFactory;
 
     /**
-     * @param ProductRepositoryInterface $productRepository
-     * @param Manager $elasticsearchManager
+     * @param ProductRepositoryInterface      $productRepository
+     * @param Manager                         $elasticsearchManager
      * @param ProductDocumentFactoryInterface $productDocumentFactory
+     * @param string                          $productDocumentClass
      */
     public function __construct(
         ProductRepositoryInterface $productRepository,
         Manager $elasticsearchManager,
-        ProductDocumentFactoryInterface $productDocumentFactory
+        ProductDocumentFactoryInterface $productDocumentFactory,
+        string $productDocumentClass
     ) {
         $this->productRepository = $productRepository;
         $this->elasticsearchManager = $elasticsearchManager;
-        $this->productDocumentRepository = $elasticsearchManager->getRepository(ProductDocument::class);
+        $this->productDocumentRepository = $elasticsearchManager->getRepository($productDocumentClass);
         $this->productDocumentFactory = $productDocumentFactory;
 
         parent::__construct('sylius:elastic-search:update-product-index');
@@ -81,7 +83,7 @@ final class UpdateProductIndexCommand extends Command
             $search->setScroll('10m');
             $search->addSort(new FieldSort('synchronised_at', 'asc'));
 
-            /** @var DocumentIterator|ProductDocument[] $productDocuments */
+            /** @var DocumentIterator|ProductDocumentInterface[] $productDocuments */
             $productDocuments = $this->productDocumentRepository->findDocuments($search);
 
             foreach ($productDocuments as $productDocument) {
@@ -143,7 +145,7 @@ final class UpdateProductIndexCommand extends Command
 
     private function scheduleRemovingOldProductDocuments(string $productCode): void
     {
-        /** @var DocumentIterator|ProductDocument[] $currentProductDocuments */
+        /** @var DocumentIterator|ProductDocumentInterface[] $currentProductDocuments */
         $currentProductDocuments = $this->productDocumentRepository->findBy(['code' => $productCode]);
 
         foreach ($currentProductDocuments as $sameCodeProductDocument) {
